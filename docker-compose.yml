@@ -1,0 +1,21 @@
+﻿version: "3.9"
+
+services:
+  api:
+    build:
+      context: .           # root of repo
+      dockerfile: Dockerfile  # at root
+    container_name: service-catalogue
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - SQLITE_FILE=/data/servicecatalogue.db
+      - AUTH_TOKEN=let-me-in
+    volumes:
+      - ./src/Service.Catalogue.Api/Data:/app/Data:rw
+
+volumes:
+  sqlite_data:
+    driver: local
