@@ -56,13 +56,13 @@ jobs:
           dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage" --results-directory ./TestResults
 
       - name: Publish Test Results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-results
           path: ./TestResults
 
       - name: Publish Code Coverage
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage
           path: ./TestResults/**/*.xml
@@ -87,7 +87,7 @@ jobs:
         shell: bash
 
       - name: Upload OpenAPI spec
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: openapi-spec
           path: ./artifacts/openapi.yaml
