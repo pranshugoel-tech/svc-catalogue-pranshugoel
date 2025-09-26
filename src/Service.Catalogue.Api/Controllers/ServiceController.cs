@@ -48,7 +48,7 @@ namespace Service.Catalogue.Api.Controllers
             {
                 var result = await _service.CreateAsync(serviceCatalogueArg);
 
-                return CreatedAtAction(nameof(Get), result);               
+                return CreatedAtAction(nameof(Get), result);
             }
             catch (InvalidOperationException ex)
             {

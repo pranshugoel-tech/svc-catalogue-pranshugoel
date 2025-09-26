@@ -9,7 +9,7 @@ namespace Service.Catalogue.Api.Repositories
         Task<ServiceCatalogueDto?> GetByNameAsync(string name);
         Task<IEnumerable<ServiceCatalogueDto?>> SearchAsync(string? ownerTeam, string? tier, string? lifecycle, string? q);
         Task CreateAsync(ServiceCatalogueArgument svc);
-        Task UpdateAsync(Guid id , ServiceCatalogueArgument svc);
+        Task UpdateAsync(Guid id, ServiceCatalogueArgument svc);
         Task DeleteAsync(Guid id);
     }
 }

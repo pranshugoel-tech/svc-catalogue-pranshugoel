@@ -9,8 +9,9 @@ namespace Service.Catalogue.Api.Repositories
     public class ServiceRepository : IServiceRepository
     {
         private readonly AppDbContext _dbContext;
-        public ServiceRepository(AppDbContext dbContext) 
-        { _dbContext = dbContext; 
+        public ServiceRepository(AppDbContext dbContext)
+        {
+            _dbContext = dbContext;
         }
         public async Task CreateAsync(ServiceCatalogueArgument svc)
         {
@@ -43,7 +44,7 @@ namespace Service.Catalogue.Api.Repositories
 
         public async Task<ServiceCatalogueDto?> GetByIdAsync(Guid id)
         {
-            return  await _dbContext.Services.FindAsync(id);
+            return await _dbContext.Services.FindAsync(id);
         }
 
         public async Task<ServiceCatalogueDto?> GetByNameAsync(string name)

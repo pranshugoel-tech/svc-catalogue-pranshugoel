@@ -7,7 +7,7 @@ using System.Globalization;
 namespace Service.Catalogue.Api.Services;
 
 public class CsvImportService : ICsvImportService
-{    
+{
     private readonly IServiceRepository _repo;
     public CsvImportService(IServiceRepository repo)
     {
@@ -27,15 +27,15 @@ public class CsvImportService : ICsvImportService
 
             foreach (var record in records)
             {
-                var data = await _repo.GetByNameAsync(record.Name);                   
+                var data = await _repo.GetByNameAsync(record.Name);
 
                 if (data != null) // if exists, update
                 {
-                   await _repo.UpdateAsync(data.Id, record);
+                    await _repo.UpdateAsync(data.Id, record);
                 }
                 else
                 {
-                   await _repo.CreateAsync(record);
+                    await _repo.CreateAsync(record);
                 }
 
                 processed++;
