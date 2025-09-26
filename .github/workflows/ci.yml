@@ -21,7 +21,7 @@ jobs:
 
       # 2️⃣ Setup .NET
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
 
@@ -39,7 +39,8 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build src/Service.Catalogue/Service.Catalogue.sln --configuration Release --no-restore
+        run: dotnet build src/Service.Catalogue.sln --configuration Release --no-restore
+
 
       # 5️⃣ Lint / format (fail on errors)
       - name: Install dotnet-format
