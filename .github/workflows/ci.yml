@@ -70,10 +70,10 @@ jobs:
 
       # 7️⃣ Dependency vulnerability scan
       - name: Install dotnet list package tool
-        run: dotnet tool install -g dotnet-outdated-tool --version 5.0.0
+        run: dotnet tool install -g dotnet-outdated-tool
 
       - name: Check for outdated dependencies
-        run: dotnet outdated --fail-on-major
+        run: dotnet outdated --fail-on-upgrade
         continue-on-error: false
 
       # 8️⃣ Build container (no push)
