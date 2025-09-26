@@ -1,0 +1,93 @@
+﻿name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - 'feature/**'
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+    steps:
+      # 1️⃣ Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2️⃣ Setup .NET
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0.x'
+
+      # 3️⃣ Cache NuGet packages
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      # 4️⃣ Restore & Build
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      # 5️⃣ Lint / format (fail on errors)
+      - name: Install dotnet-format
+        run: dotnet tool install -g dotnet-format
+
+      - name: Run code formatting check
+        run: dotnet format --verify-no-changes
+        env:
+          PATH: ${{ env.PATH }}:/home/runner/.dotnet/tools
+
+      # 6️⃣ Run tests & coverage
+      - name: Test with coverage
+        run: |
+          dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage" --results-directory ./TestResults
+
+      - name: Publish Test Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: ./TestResults
+
+      - name: Publish Code Coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: ./TestResults/**/*.xml
+
+      # 7️⃣ Dependency vulnerability scan
+      - name: Install dotnet list package tool
+        run: dotnet tool install -g dotnet-outdated-tool
+
+      - name: Check for outdated dependencies
+        run: dotnet outdated --fail-on-major
+        continue-on-error: false
+
+      # 8️⃣ Build container (no push)
+      - name: Build Docker container
+        run: docker build -t myapp:latest .
+
+      # 9️⃣ Publish OpenAPI spec as artifact
+      - name: Publish OpenAPI spec
+        run: |
+          mkdir -p ./artifacts
+          cp ./OpenApi/openapi.yaml ./artifacts/openapi.yaml
+        shell: bash
+
+      - name: Upload OpenAPI spec
+        uses: actions/upload-artifact@v3
+        with:
+          name: openapi-spec
+          path: ./artifacts/openapi.yaml
