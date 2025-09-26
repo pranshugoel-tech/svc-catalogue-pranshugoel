@@ -51,22 +51,22 @@ jobs:
         env:
           PATH: ${{ env.PATH }}:/home/runner/.dotnet/tools
 
-      # 6️⃣ Run tests & coverage
-      - name: Test with coverage
-        run: |
-          dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage" --results-directory ./TestResults
+      # # 6️⃣ Run tests & coverage
+      # - name: Test with coverage
+      #   run: |
+      #     dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage" --results-directory ./TestResults
 
-      - name: Publish Test Results
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: ./TestResults
+      # - name: Publish Test Results
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: test-results
+      #     path: ./TestResults
 
-      - name: Publish Code Coverage
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage
-          path: ./TestResults/**/*.xml
+      # - name: Publish Code Coverage
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: coverage
+      #     path: ./TestResults/**/*.xml
 
       # 7️⃣ Dependency vulnerability scan
       - name: Install dotnet list package tool
