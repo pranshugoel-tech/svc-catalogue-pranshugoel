@@ -8,11 +8,9 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // DB
-//builder.Services.AddDbContext<AppDbContext>(options =>
-//    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DockerConnection")));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 // Services
 builder.Services.AddSingleton<JwtTokenService>();
 builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
@@ -85,8 +83,12 @@ app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Service Catalogue API v1");
+    c.RoutePrefix = "swagger";
 });
 
+app.MapGet("/", () => Results.Redirect("/swagger/index.html"));
+
+app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 

@@ -16,22 +16,16 @@ namespace Service.Catalogue.Api.Controllers
 
         // Example: POST /api/auth/login
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginRequest request)
+        public IActionResult Login(string username = "admin", string password = "password")
         {
             // ⚠️ In real life, validate user against DB/IdP
-            if (request.Username == "admin" && request.Password == "password")
+            if (username == "admin" && password == "password")
             {
-                var token = _jwtTokenService.GenerateToken(request.Username);
+                var token = _jwtTokenService.GenerateToken(username);
                 return Ok(new { access_token = token });
             }
 
             return Unauthorized();
         }
-    }
-
-    public class LoginRequest
-    {
-        public string Username { get; set; } = "";
-        public string Password { get; set; } = "";
     }
 }
