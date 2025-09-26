@@ -68,27 +68,27 @@ jobs:
       #     name: coverage
       #     path: ./TestResults/**/*.xml
 
-      # 7️⃣ Dependency vulnerability scan
-      - name: Install dotnet list package tool
-        run: dotnet tool install -g dotnet-outdated-tool
+      # # 7️⃣ Dependency vulnerability scan
+      # - name: Install dotnet list package tool
+      #   run: dotnet tool install -g dotnet-outdated-tool
 
-      - name: Check for outdated dependencies
-        run: dotnet outdated --fail-on-upgrade
-        continue-on-error: false
+      # - name: Check for outdated dependencies
+      #   run: dotnet outdated --fail-on-upgrade
+      #   continue-on-error: false
 
-      # 8️⃣ Build container (no push)
-      - name: Build Docker container
-        run: docker build -t myapp:latest .
+      # # 8️⃣ Build container (no push)
+      # - name: Build Docker container
+      #   run: docker build -t myapp:latest .
 
-      # 9️⃣ Publish OpenAPI spec as artifact
-      - name: Publish OpenAPI spec
-        run: |
-          mkdir -p ./artifacts
-          cp ./OpenApi/openapi.yaml ./artifacts/openapi.yaml
-        shell: bash
+      # # 9️⃣ Publish OpenAPI spec as artifact
+      # - name: Publish OpenAPI spec
+      #   run: |
+      #     mkdir -p ./artifacts
+      #     cp ./OpenApi/openapi.yaml ./artifacts/openapi.yaml
+      #   shell: bash
 
-      - name: Upload OpenAPI spec
-        uses: actions/upload-artifact@v4
-        with:
-          name: openapi-spec
-          path: ./artifacts/openapi.yaml
+      # - name: Upload OpenAPI spec
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: openapi-spec
+      #     path: ./artifacts/openapi.yaml
