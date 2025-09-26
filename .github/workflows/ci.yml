@@ -39,7 +39,7 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build src/Service.Catalogue/Service.Catalogue.sln --configuration Release --no-restore
 
       # 5️⃣ Lint / format (fail on errors)
       - name: Install dotnet-format
