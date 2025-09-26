@@ -1,6 +1,6 @@
 .PHONY: run build test lint fmt docker-build clean
 
-run:
+docker:
 	docker-compose up --build
 
 build:
